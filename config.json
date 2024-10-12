@@ -1,0 +1,55 @@
+{
+    "valuation_date": "2024-09-30",
+    "files": [
+        {
+            "file_name": "file_one",
+            "file_path": "./file_one_YYYY-MM-DD.csv"
+        },
+        {
+            "file_name": "file_two",
+            "file_path": "./file_two_YYYY-MM.csv"
+        },
+        {
+            "file_name": "file_three",
+            "file_path": "./YYYY/YYYY-Q#/file_three.csv"
+        },
+        {
+            "file_name": "file_four",
+            "file_path": "./YYYY/9. September/file_four.csv"
+        }
+    ],
+    "steps": {
+        "comm_trueup": {
+            "tests": [
+                {
+                    "test_name": "test_one",
+                    "required_files": ["file_one", "file_two"]
+                },
+                {
+                    "test_name": "test_two",
+                    "required_files": ["file_one", "file_three"]
+                }
+            ]
+        },
+        "inv_income": {
+            "tests": [
+                {
+                    "test_name": "test_one",
+                    "required_files": ["file_one", "file_two"]
+                },
+                {
+                    "test_name": "test_two",
+                    "required_files": ["file_one", "file_three"]
+                },
+                {
+                    "test_name": "test_three",
+                    "required_files": ["file_four"]
+                },
+                {
+                    "test_name": "test_four",
+                    "required_files": ["file_four", "file_five"]
+                }
+            ]
+        }
+    }
+}
