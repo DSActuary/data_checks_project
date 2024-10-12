@@ -23,11 +23,30 @@
             "tests": [
                 {
                     "test_name": "test_one",
-                    "required_files": ["file_one", "file_two"]
+                    "required_files": [
+                        {
+                            "file_name": "file_one",
+                            "sheet_name": "sheet1" 
+                        },
+                        {
+                            "file_name": "file_two",
+                            "sheet_name": "Summary"
+                        }
+                    ]
                 },
                 {
                     "test_name": "test_two",
-                    "required_files": ["file_one", "file_three"]
+                    "required_files": [
+                        {
+                            "file_name": "file_one",
+                            "sheet_name": "sheet1" 
+                        },
+                        {
+                            "file_name": "file_two",
+                            "sheet_name": "Summary"
+                        }
+                    ]
+                
                 }
             ]
         },
