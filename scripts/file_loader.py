@@ -1,7 +1,6 @@
 import pandas as pd
 
-# TODO Add custom logic needed
-# TODO fix sheet name pulling as it'll likely need to know which test is being ran to know what sheet to pull
+# TODO add custom logic for each file.
 
 class FileLoader:
     def __init__(self, file_info, valuation_date):
@@ -17,14 +16,14 @@ class FileLoader:
                                     .replace("MM", valuation_date[5:7]) \
                                     .replace("Q#", "Q" + str((int(valuation_date[5:7])-1)//3 + 1))
 
-    def load_file(self):
+    def load_file(self, sheet_name=None):
         """main method to load file based on its type."""
         if self.file_name == 'file_one':
-            return._load_file_one()
+            return._load_csv_file() # assume this one is a csv
         elif self.file_name == 'file_two':
-            return self._load_file_two()
+            return self._load_file_two(sheet_name)
         elif self.file_name == 'file_three':
-            return self._load_file_three()
+            return self._load_file_three(sheet_name)
         else:
             raise ValueError(f"Unknown file type: {self.file_name}. Ensure file has file_loader logic")
         
@@ -38,30 +37,30 @@ class FileLoader:
             print(f"Error loading {self.file_name}: {e}")
             return None
         
-    def _load_file_two(self):
+    def _load_file_two(self, sheet_name):
         """Logic required to read in file two"""
         try: 
-            df = pd.read_excel(self.file_path, sheet_name = "Sheet1"))
+            df = pd.read_excel(self.file_path, sheet_name = sheet_name)
             # put the custom logic here
             return df
         except Exception as e:
             print(f"Error loading {self.file_name}: {e}")
             return None
         
-    def _load_file_three(self):
+    def _load_file_three(self, sheet_name):
         """Logic required to read in file three"""
         try: 
-            df = pd.read_csv(self.file_path)
+            df = pd.read_excel(self.file_path, sheet_name = sheet_name)
             # put the custom logic here
             return df
         except Exception as e:
             print(f"Error loading {self.file_name}: {e}")
             return None
         
-    def _load_file_four(self):
+    def _load_file_four(self, sheet_name):
         """Logic required to read in file four"""
         try: 
-            df = pd.read_excel(self.file_path, sheet_name = "Sheet1"))
+            df = pd.read_excel(self.file_path, sheet_name = sheet_name))
             # put the custom logic here
             return df
         except Exception as e:
