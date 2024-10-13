@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from datetime import datetime
 from file_loader import FileLoader
+from tests.test_comm_trueup import test_one, test_two, test_three # TODO update this when a better way to call tests
 
 def load_config(config_file_path):
     """Load the configuration file."""
@@ -31,7 +32,7 @@ def load_files_for_test(required_files, config, valuation_date):
             sheet_name = file_info.get('sheet_name')
             loaded_files[file_name] = loader.load_file(sheet_name)
         else:
-            print(f"Errror: File {file_name} not found in config.")
+            print(f"Error: File {file_name} not found in config.")
     
     return loaded_files
 
@@ -51,11 +52,7 @@ def run_tests(step_names, config, valuation_date):
             print(f"Step {step_name} not found in config file.")
 
     # load only the files needed for the steps
-    data_files = {}
-    for file_name in required_files:
-        file_info = next((f for f in config['files'] if f['file_name'] == file_name), None)    
-        if file_info:
-            data_files[file_name] = load_files(file_info)
+    data_files = load_files_for_test(required_files, config, valuation_date)
 
     # Run tests for each step
     for step_name in step_names:
@@ -68,12 +65,18 @@ def run_tests(step_names, config, valuation_date):
                 # load required data for the test
                 test_data = {name: data_files[name] for name in test['required_files'] if name in data_files}
 
-                # TODO add test logic
-                print(f"Files for {test_name}: {list(test_data.keys())}")
+                # TODO fix this to call things dynamically so as the tests scale adjustments don't need to be made here
+                if test_name == "test_one":
+                    result = test_one(test_data['file1'], test_data['file2'])
+                elif test_name == "test_two":
+                    result = test_two(test_data['file1'], test_data['file2'], test_data['file3'], valuation_date)
+                elif test_name == "test_three":
+                    result = test_three(test_data['file1'], test_data['file2'], valuation_date)
+                else:
+                    print(f"Error: Unknown test '{test_name}'")
+                    continue
+                
+                print(f"Result of {test_name}: {result}")
 
             else:
                 print(f"step {step_name} not found.")
-
-# examples
-run_steps(["comm_trueup"])
-run_steps(["comm_trueup", "inv_income"])

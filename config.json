@@ -2,27 +2,27 @@
     "valuation_date": "2024-09-30",
     "files": [
         {
-            "file_name": "file_one.csv",
+            "file_name": "file_one",
             "file_path": "./sample_data/YYYY/file_one.csv"
         },
         {
-            "file_name": "file_two_YYYY-MM-DD.xlsx",
+            "file_name": "file_two",
             "file_path": "sample_data/YYYY/Q#/file_two_YYYY-MM-DD.xlsx"
         },
         {
-            "file_name": "file_three.xlsx",
+            "file_name": "file_three",
             "file_path": "sample_data/YYYY/Q#/file_three.xlsx"
         },
         {
-            "file_name": "file_four.xlsx",
+            "file_name": "file_four",
             "file_path": "sample_data/YYYY/MONTH FOLDER/file_four.xlsx"
         },
         {
-            "file_name": "file_five.xlsx",
+            "file_name": "file_five",
             "file_path": "./sample_data/YYYY/PM/file_five.xlsx"
         },
         {
-            "file_name": "file_six.xlsx",
+            "file_name": "file_six",
             "file_path": "./sample_data/YYYY/PQ/file_five.xlsx"
         }
     ],
@@ -33,12 +33,11 @@
                     "test_name": "test_one",
                     "required_files": [
                         {
-                            "file_name": "file_one",
-                            "sheet_name": "sheet1" 
+                            "file_name": "file_one"
                         },
                         {
                             "file_name": "file_two",
-                            "sheet_name": "Summary"
+                            "sheet_name": "Diff"
                         }
                     ]
                 },
@@ -46,15 +45,31 @@
                     "test_name": "test_two",
                     "required_files": [
                         {
-                            "file_name": "file_one",
-                            "sheet_name": "sheet1" 
+                            "file_name": "file_two",
+                            "sheet_name": "Current" 
                         },
                         {
                             "file_name": "file_two",
-                            "sheet_name": "Summary"
+                            "sheet_name": "Diff" 
+                        },
+                        {
+                            "file_name": "file_three",
+                            "sheet_name": "data"
                         }
                     ]
-                
+                },
+                {
+                    "test_name": "test_three",
+                    "required_files": [
+                        {
+                            "file_name": "file_three",
+                            "sheet_name": "data"
+                        },
+                        {
+                            "file_name": "file_three",
+                            "sheet_name": "data2"
+                        }
+                    ]
                 }
             ]
         },
