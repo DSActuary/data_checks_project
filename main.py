@@ -1,6 +1,7 @@
 import argparse
-import json
-from scripts.test_manager import TestManager  # Import your TestManager class or equivalent
+from scripts.test_manager import TestManager
+
+# TODO fix config to have a definition. This definition explains each test and can be printed when the test fails
 
 def choose_config(product):
     """Based on arguments, select the correct configuration file."""
@@ -32,7 +33,7 @@ def main():
     # Run specified tests
     for test in args.tests:
         try:
-            test_manager.run_test(test)  # Implement this method in your TestManager
+            test_manager.run_test(test)
         except ValueError as e:
             print(f"Error running test {test}: {e}")
 
