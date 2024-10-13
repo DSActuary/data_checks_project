@@ -22,7 +22,7 @@ class TestManager:
                 return file
         raise ValueError(f"File {file_name} not found in config.")
     
-    def run_test(self, step_name, test_name)
+    def run_test(self, step_name, test_name):
         """Run specific test in a step"""
         step = self.config['steps'].get(step_name)
         if not step:
