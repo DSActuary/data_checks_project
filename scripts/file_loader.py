@@ -1,6 +1,9 @@
 import pandas as pd
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 # TODO add custom logic for each file.
+# TODO fix date path logic
 
 class FileLoader:
     def __init__(self, file_info, valuation_date):
@@ -11,10 +14,22 @@ class FileLoader:
 
     def _generate_file_path(self):
         """generate file path by replacing date placeholders"""
+        # create prior quarter end
+        curr_qtr_start_month = (self.valuation_date.month - 1) // 3 * 3 + 1
+        prior_qtr = datetime(self.valuation_date.year, curr_qtr_start_month, 1) - timedelta(day = 1)
+
+        # create prior month end
+        prior_mnth = self.valuation_date.replace(day = 1) - timedelta(day = 1) # subtract a day to get prior month end
+
+        # month format for paths /2. February/
+        valuation_month_number = self.valuation_date.strftime('%-m')  # Without leading zero (e.g., 4)
+        valuation_month_name = self.valuation_date.strftime('%B')      # Full month name (e.g., "April")
+        month_folder = f"{valuation_month_number}. {valuation_month_name}" # will turn path into "4. April"
+
         return self.file_path_template.replace("YYYY-MM-DD", self.valuation_date) \
                                     .replace("YYYY", self.valuation_date[:4]) \
                                     .replace("MM", self.valuation_date[5:7]) \
-                                    .replace("Q#", "Q" + str((int(self.valuation_date[5:7])-1)//3 + 1))
+                                    .replace("Q#", "Q" + str((int(self.valuation_date[5:7]) - 1) // 3 + 1))
 
     def load_file(self, sheet_name=None):
         """main method to load file based on its type."""
@@ -25,10 +40,10 @@ class FileLoader:
         elif self.file_name == 'file_three':
             return self._load_file_three(sheet_name)
         else:
-            raise ValueError(f"Unknown file type: {self.file_name}. Ensure file has file_loader logic")
+            raise ValueError(f"Unknown file type: {self.file_name}. Ensure file has file_loader logic.")
         
     def _load_file_one(self):
-        """Logic required to read in file one"""
+        """Logic required to read in file one."""
         try: 
             df = pd.read_csv(self.file_path)
             # put the custom logic here
@@ -38,7 +53,7 @@ class FileLoader:
             return None
         
     def _load_file_two(self, sheet_name):
-        """Logic required to read in file two"""
+        """Logic required to read in file two."""
         try: 
             df = pd.read_excel(self.file_path, sheet_name = sheet_name)
             # put the custom logic here
@@ -48,7 +63,7 @@ class FileLoader:
             return None
         
     def _load_file_three(self, sheet_name):
-        """Logic required to read in file three"""
+        """Logic required to read in file three."""
         try: 
             df = pd.read_excel(self.file_path, sheet_name = sheet_name)
             # put the custom logic here
@@ -58,7 +73,7 @@ class FileLoader:
             return None
         
     def _load_file_four(self, sheet_name):
-        """Logic required to read in file four"""
+        """Logic required to read in file four."""
         try: 
             df = pd.read_excel(self.file_path, sheet_name = sheet_name)
             # put the custom logic here
