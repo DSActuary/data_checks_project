@@ -22,6 +22,7 @@ def load_files_for_test(required_files, config, valuation_date):
     loaded_files = {}
 
     for file_name in required_files:
+        # get file info from config.json
         file_info = next((f for f in config['files']  if f['file_name'] == file_name), None)
     
         if file_info:
@@ -36,7 +37,8 @@ def load_files_for_test(required_files, config, valuation_date):
 
 
 # function to run tests for one ore more steps
-def run_steps(step_names):
+def run_tests(step_names, config, valuation_date):
+    """Run tests for one or more steps."""
     required_files = set() # keep track of all files needed for the steps
 
     # collect required files for each step
@@ -46,7 +48,7 @@ def run_steps(step_names):
             for test in step['tests']:
                 required_files.update(test['required_files']) 
         else:
-            print(f"Step {step_name} not found.")
+            print(f"Step {step_name} not found in config file.")
 
     # load only the files needed for the steps
     data_files = {}
