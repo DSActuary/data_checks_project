@@ -1,28 +1,39 @@
 import json
 import pandas as pd
+from datetime import datetime
+from file_loader import FileLoader
 
-config_file_path = "..\config.json"
-
-# load json file
-with open(config_file_path, "r") as f:
-    config = json.load(f)
-
-# extract valuation date
-valuation_date = config['valution_date']
+def load_config(config_file_path):
+    """Load the configuration file."""
+    try:
+        with open(config_file_path, "r") as f:
+            config = json.load(f)
+        return config
+    except FileNotFoundError:
+        print(f"Error: Config file {config_file_path} not found.")
+        return None
+    except json.JSONDecodeError:
+        print("Error: Config file is not in proper JSON format.")
+        return None
 
 # function to laod files
-def load_file(file_info):
-    file_path = file_info['file_path'].replace("YYYY-MM-DD", valuation_date) \
-                                    .replace("YYYY", valuation_date[:4]) \
-                                    .replace("MM", valuation_date[5:7]) \
-                                    .replace("Q#", "Q" + str((int(valuation_date[5:7])-1)//3 + 1))
+def load_files_for_test(required_files, config, valuation_date):
+    """Load all required files for specific tests"""
+    loaded_files = {}
 
-    try:
-        df = pd.read_excel(file_path)
-        print(f"Loaded {file_info['file_name']} from {file_path}.")
-        return df
-    except FileNotFoundError:
-        print(f"Error: File {file_path} not found.")
+    for file_name in required_files:
+        file_info = next((f for f in config['files']  if f['file_name'] == file_name), None)
+    
+        if file_info:
+            # pass config and valuation date to the FileLoader
+            loader = FileLoader(file_info, valuation_date)
+            sheet_name = file_info.get('sheet_name')
+            loaded_files[file_name] = loader.load_file(sheet_name)
+        else:
+            print(f"Errror: File {file_name} not found in config.")
+    
+    return loaded_files
+
 
 # function to run tests for one ore more steps
 def run_steps(step_names):

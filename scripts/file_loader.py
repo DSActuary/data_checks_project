@@ -26,10 +26,19 @@ class FileLoader:
         valuation_month_name = self.valuation_date.strftime('%B')      # Full month name (e.g., "April")
         month_folder = f"{valuation_month_number}. {valuation_month_name}" # will turn path into "4. April"
 
-        return self.file_path_template.replace("YYYY-MM-DD", self.valuation_date) \
-                                    .replace("YYYY", self.valuation_date[:4]) \
-                                    .replace("MM", self.valuation_date[5:7]) \
-                                    .replace("Q#", "Q" + str((int(self.valuation_date[5:7]) - 1) // 3 + 1))
+        # Replace placeholders in the file path template
+        file_path = self.file_path_template \
+            .replace("YYYY-MM-DD", self.valuation_date.strftime('%Y-%m-%d')) \
+            .replace("YYYY-MM", self.valuation_date.strftime('%Y-%m')) \
+            .replace("YYYY", str(self.valuation_date.year)) \
+            .replace("MM", self.valuation_date.strftime('%m')) \
+            .replace("DD", self.valuation_date.strftime('%d')) \
+            .replace("Q#", "Q" + str((self.valuation_date.month - 1) // 3 + 1)) \
+            .replace("PRIOR_QTR", prior_qtr.strftime('%Y%m')) \
+            .replace("PRIOR_MNTH", prior_mnth.strftime('%Y%m')) \
+            .replace("MONTH_FOLDER", month_folder)
+
+        return file_path
 
     def load_file(self, sheet_name=None):
         """main method to load file based on its type."""

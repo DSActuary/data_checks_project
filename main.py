@@ -13,11 +13,6 @@ def choose_config(product):
     else:
         raise ValueError(f"Unknown product type: {product}. Program supports 'prod1', 'prod2', 'prod3'.")
 
-def load_config(config_file_path):
-    """Load configuration from a JSON file."""
-    with open(config_file_path, 'r') as f:
-        return json.load(f)
-
 def main():
     # Set up argument parser
     parser = argparse.ArgumentParser(description="Run data checks on Excel files.")
@@ -31,11 +26,8 @@ def main():
     # Choose configuration
     config_file_path = choose_config(product=args.product)
 
-    # Load configuation
-    config = load_config(config_file_path)
-
     # Initialize the TestManager with the config
-    test_manager = TestManager(config)
+    test_manager = TestManager(config_file_path)
 
     # Run specified tests
     for test in args.tests:
