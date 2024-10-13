@@ -2,28 +2,28 @@
     "valuation_date": "2024-09-30",
     "files": [
         {
-            "file_name": "file_one",
-            "file_path": "./sample_data/YYYY/Q#/file_one.xlsx"
+            "file_name": "file_one.csv",
+            "file_path": "./sample_data/YYYY/file_one.csv"
         },
         {
-            "file_name": "./sample_data/YYYY/MM/file_two",
-            "file_path": "./file_two_YYYY-MM.csv"
+            "file_name": "file_two_YYYY-MM-DD.xlsx",
+            "file_path": "sample_data/YYYY/Q#/file_two_YYYY-MM-DD.xlsx"
         },
         {
-            "file_name": "file_three",
-            "file_path": "./YYYY/YYYY-Q#/file_three.csv"
+            "file_name": "file_three.xlsx",
+            "file_path": "sample_data/YYYY/Q#/file_three.xlsx"
         },
         {
-            "file_name": "file_four",
-            "file_path": "./YYYY/9. September/file_four.csv"
+            "file_name": "file_four.xlsx",
+            "file_path": "sample_data/YYYY/MONTH FOLDER/file_four.xlsx"
         },
         {
-            "file_name": "file_five",
-            "file_path": "./sample_data/YYYY/PM/file_five.csv"
+            "file_name": "file_five.xlsx",
+            "file_path": "./sample_data/YYYY/PM/file_five.xlsx"
         },
         {
-            "file_name": "file_six",
-            "file_path": "./sample_data/YYYY/PQ/file_five.csv"
+            "file_name": "file_six.xlsx",
+            "file_path": "./sample_data/YYYY/PQ/file_five.xlsx"
         }
     ],
     "steps": {
