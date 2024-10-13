@@ -35,5 +35,5 @@ pip install -r requirements.txt
 1. Configureation: Modeify the config.json file to specific the valuation date, file paths, and test steps.
 2. Run the checks: Execute the script to run the data checks:
     ```bash
-    python main.py -t testname1 testname2
+    python main.py -t testname1 testname2 -p prod1
     ```
