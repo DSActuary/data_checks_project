@@ -30,12 +30,24 @@ def main():
     # Initialize the TestManager with the config
     test_manager = TestManager(config_file_path)
 
+    print(f"is test as list: {isinstance(args.tests, list)}")
+
     # Run specified tests
+    try:
+        print(f"Running test '{args.tests}'")
+        test_manager.run_tests(args.tests)
+    except ValueError as e:
+        print(f"Error running test {args.tests}: {e}")
+
+
+'''    # Run specified tests
     for test in args.tests:
+        print(f"in loop, is test a string: {isinstance(test, str)}")
         try:
-            test_manager.run_test(test)
+            print(f"Running test '{test}'")
+            test_manager.run_tests(test)
         except ValueError as e:
-            print(f"Error running test {test}: {e}")
+            print(f"Error running test {test}: {e}")'''
 
 if __name__ == "__main__":
     main()

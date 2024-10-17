@@ -28,7 +28,10 @@ To set up the project locally, follow these steps:
    cd data-checks
    ```
 2. Install the required dependencies:
-pip install -r requirements.txt
+   ```bash
+   pip install -r requirements.txt
+   ```
+
 3. Configure your input files and JSON settings as per the config.json template.
 
 ## Usage

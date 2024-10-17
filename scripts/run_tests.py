@@ -1,9 +1,10 @@
 import json
 import pandas as pd
 from datetime import datetime
-from file_loader import FileLoader
-from tests.test_comm_trueup import test_one, test_two, test_three # TODO update this when a better way to call tests
+from .file_loader import FileLoader
+from .tests.test_comm_trueup import test_one, test_two, test_three # TODO update this when a better way to call tests
 
+# TODO is this needed if the json is being read in the early test_manager step
 def load_config(config_file_path):
     """Load the configuration file."""
     try:
