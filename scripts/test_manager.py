@@ -35,11 +35,14 @@ class TestManager:
     def load_files_for_tests(self, required_files):
         """load all rquired files for specific test"""
         loaded_files = {}
-        for file_name in required_files:
-            file_info = self.get_file_info(file_name)
-            if file_info:
-                loader = FileLoader(file_info, self.valuation_date)
-                sheet_name = file_info.get('sheet_name')
+
+        for file_info in required_files:
+            file_name = file_info['file_name']
+            sheet_name = file_info['sheet_name']
+            file_path = self.get_file_info(file_name)
+
+            if file_path:
+                loader = FileLoader(file_path, self.valuation_date)
                 loaded_files[file_name] = loader.load_file(sheet_name)
             else:
                 print(f"Error: file '{file_name}' not found in config.")
@@ -54,22 +57,26 @@ class TestManager:
     
     def run_tests(self, step_names):
         """Run specific test in a step"""
-        required_files = set()
+        # store a dictionary with file name / sheet combinations
+        required_files = [] 
 
         for step_name in step_names:
-            step = self.config['steps'].get(step_name)
-            print(f"found in config {step}")
+            step = self.config['steps'][step_name]
             if not step:
                 raise ValueError(f"Step '{step_name}' not found in config.")
             
             for test in step['tests']:
-                # extract file names from required_files
+                # extract file names and sheet names from required_files
                 for file_info in test['required_files']:
-                    file_name = file_info['file_name']
-                    required_files.add(file_name)
+                    required_files.append({
+                        'file_name': file_info['file_name'],
+                        'sheet_name': file_info.get('sheet_name', None) # defaults to none if there isn't a sheet name
+                    })
             
         # Load files needed for the tests
         data_files = self.load_files_for_tests(required_files)
+
+        print(f"data files = {data_files}")
 
         # fun tests for each step
         for step_name in step_names:
@@ -81,10 +88,12 @@ class TestManager:
                 test_name = test['test_name']
                 print(f"Running {test_name} for {step_name}...")
 
-                test_data = {name: data_files[name] for name in required_files if name in data_files}
+                test_data = {file_info['file_name']: data_files[file_info['file_name']]
+                             for file_info in required_files
+                             if file_info['file_name'] in data_files}
                 
-                if test_name in self.test_functions:
-                    result = self.test_functions[test_name](**test_data)
+                if test_name in self.test_function:
+                    result = self.test_function[test_name](**test_data)
                     print(f"Result of {test_name}: {result}")
                 else:
                     print(f"Error: Unknown test '{test_name}'")
