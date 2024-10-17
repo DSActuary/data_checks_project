@@ -40,3 +40,4 @@ To set up the project locally, follow these steps:
     ```bash
     python main.py -t testname1 testname2 -p prod1
     ```
+3. # TODO UPDATE INSTRUCTIONS ON HOW TO ADD MORE TESTS

@@ -68,8 +68,8 @@ class FileLoader:
         if sheet_name == "Current":
             try: 
                 df = pd.read_excel(self.file_path, sheet_name = sheet_name, skiprows = 4)
-                df.drop(index = 5, inplace = True) # drop the blank row of data
-                df.reset_index(drop = True, inplace = True)
+                #df.drop(index = 5, inplace = True) # drop the blank row of data
+                #df.reset_index(drop = True, inplace = True)
                 df.rename(columns={df.columns[0]: 'element_type'}, inplace = True)
                 return df
             except Exception as e:

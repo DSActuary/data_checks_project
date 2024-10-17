@@ -76,8 +76,6 @@ class TestManager:
         # Load files needed for the tests
         data_files = self.load_files_for_tests(required_files)
 
-        print(f"data files = {data_files}")
-
         # fun tests for each step
         for step_name in step_names:
             step = self.config['steps'][step_name]
@@ -88,12 +86,15 @@ class TestManager:
                 test_name = test['test_name']
                 print(f"Running {test_name} for {step_name}...")
 
+                # TODO fix the way the name in the dictionaries so that each test data set gets assigned data1 ... dataN
+                # then each test can all be structured as data1 ... dataN
                 test_data = {file_info['file_name']: data_files[file_info['file_name']]
                              for file_info in required_files
                              if file_info['file_name'] in data_files}
-                
+                print(f"Test: {test, required_files}")
+
                 if test_name in self.test_function:
-                    result = self.test_function[test_name](**test_data)
+                    result = self.test_function[test_name](test_data, self.valuation_date)
                     print(f"Result of {test_name}: {result}")
                 else:
                     print(f"Error: Unknown test '{test_name}'")

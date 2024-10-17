@@ -1,11 +1,14 @@
-
+from datetime import datetime
 # TODO make the test results more useful. If fails, output the results / definition of test
 # TODO definition of test hasn't been added to the config yet
 # TODO figure out a better way to refer to files / data (confusing data1 vs file1 etc)
 
-def test_one(file1, file2):
+def test_one(data, valuation_date=None):
     """Run test one"""
-    if file1["col3"] != "yes":
+    file1 = data.get("file_one")
+    file2 = data.get("file_two")
+
+    if not (file1["col3"] == "yes").any():
         return False
     if file2[["col1", "col2", "col3"]].sum().sum() == 0:
         return True
@@ -13,9 +16,13 @@ def test_one(file1, file2):
         return False
 
 # TODO look into if there a way to make the number of files being read in dynamic
-def test_two(file1, file2, file3, valuation_date):
+def test_two(data, valuation_date):
     """Run test two"""
-    col_val_date = valuation_date.strftime("%m/%d/%Y")
+    file1 = data.get("file_one")
+    file2 = data.get("file_two")
+    file3 = data.get("file_three")
+
+    col_val_date = datetime.strptime(valuation_date, "%Y-%m-%d").strftime("%m/%d/%Y")
     data1 = file1.loc[file1["element_type"] == "test_row", "Current"]
 
     filtered_data3 = file3[file3[file3.columns[0]] == "a"]
