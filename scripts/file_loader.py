@@ -62,12 +62,12 @@ class FileLoader:
         except Exception as e:
             print(f"Error loading {self.file_name}: {e}")
             return None
-        
+
     def _load_file_two(self, sheet_name):
         """Logic required to read in file two."""
         if sheet_name == "Current":
             try: 
-                df = pd.read_excel(self.file_path, sheet_name = sheet_name, skiprows = 4)
+                df = pd.read_excel(self.file_path, sheet_name = sheet_name, skiprows = 3)
                 #df.drop(index = 5, inplace = True) # drop the blank row of data
                 #df.reset_index(drop = True, inplace = True)
                 df.rename(columns={df.columns[0]: 'element_type'}, inplace = True)

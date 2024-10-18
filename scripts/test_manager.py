@@ -34,7 +34,7 @@ class TestManager:
 
     def load_files_for_tests(self, required_files):
         """load all rquired files for specific test"""
-        loaded_files = {}
+        data_files = {}
 
         for file_info in required_files:
             file_name = file_info['file_name']
@@ -43,10 +43,14 @@ class TestManager:
 
             if file_path:
                 loader = FileLoader(file_path, self.valuation_date)
-                loaded_files[file_name] = loader.load_file(sheet_name)
+                loaded_files = loader.load_file(sheet_name)
             else:
                 print(f"Error: file '{file_name}' not found in config.")
-        return loaded_files
+
+            key = f"{file_name}_{sheet_name}" if sheet_name else file_name
+            data_files[key] = loaded_files
+
+        return data_files
     
     def get_file_info(self, file_name):
         """Helper method to get the file info from the config."""
@@ -75,6 +79,9 @@ class TestManager:
             
         # Load files needed for the tests
         data_files = self.load_files_for_tests(required_files)
+        print("Printing data files:")
+        for key, df in data_files.items():
+            print(f"{key}: {df.head()}") # print the first couple rows of each DF
 
         # fun tests for each step
         for step_name in step_names:
@@ -88,13 +95,27 @@ class TestManager:
 
                 # TODO fix the way the name in the dictionaries so that each test data set gets assigned data1 ... dataN
                 # then each test can all be structured as data1 ... dataN
-                test_data = {file_info['file_name']: data_files[file_info['file_name']]
-                             for file_info in required_files
-                             if file_info['file_name'] in data_files}
-                print(f"Test: {test, required_files}")
+                test_data = []
+                for file_info in test['required_files']:
+                    file_name = file_info['file_name']
+                    sheet_name = file_info.get('sheet_name')
+                    key = f"{file_name}_{sheet_name}" if sheet_name else file_name
+
+                    print(f"Key -- {key}")
+                    print()
+                    if key in data_files:
+                        test_data.append(data_files[key])
+                    else:
+                        print(f"Warning: {key} not found in data_files.")
+                
+                print()
+                for index, df in enumerate(test_data):
+                    print(f"Data {index + 1}:\n {df.head()}") 
+                print()
+                #print(f"Test: {test, required_files}")
 
                 if test_name in self.test_function:
-                    result = self.test_function[test_name](test_data, self.valuation_date)
+                    result = self.test_function[test_name](*test_data, self.valuation_date)
                     print(f"Result of {test_name}: {result}")
                 else:
                     print(f"Error: Unknown test '{test_name}'")

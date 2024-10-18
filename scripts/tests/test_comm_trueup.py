@@ -3,10 +3,8 @@ from datetime import datetime
 # TODO definition of test hasn't been added to the config yet
 # TODO figure out a better way to refer to files / data (confusing data1 vs file1 etc)
 
-def test_one(data, valuation_date=None):
+def test_one(file1, file2, valuation_date=None):
     """Run test one"""
-    file1 = data.get("file_one")
-    file2 = data.get("file_two")
 
     if not (file1["col3"] == "yes").any():
         return False
@@ -16,18 +14,17 @@ def test_one(data, valuation_date=None):
         return False
 
 # TODO look into if there a way to make the number of files being read in dynamic
-def test_two(data, valuation_date):
+def test_two(file1, file2, file3, valuation_date):
     """Run test two"""
-    file1 = data.get("file_one")
-    file2 = data.get("file_two")
-    file3 = data.get("file_three")
 
     col_val_date = datetime.strptime(valuation_date, "%Y-%m-%d").strftime("%m/%d/%Y")
-    data1 = file1.loc[file1["element_type"] == "test_row", "Current"]
-
+    print(f"file columns: {file1.columns}")
+    data1 = file1[file1["element_type"] == "test_row"]["Current"]
+    print(f"file3 columns: {file3.columns}")
     filtered_data3 = file3[file3[file3.columns[0]] == "a"]
     if col_val_date in file3.columns:
         data3 = filtered_data3[col_val_date].sum()
+        print(f"data3 = {data3}")
     else:
         raise ValueError(f"Column '{col_val_date}' not found in {file3}")
 
@@ -35,6 +32,7 @@ def test_two(data, valuation_date):
     if data1 != data3:
         return False
     if file2[["col1", "col2", "col3"]].sum().sum() == 0:
+        print(f"file2: {file2.columns}")
         return True
     else:
         return False
